@@ -16,7 +16,7 @@ public struct Message: NodeRepresentable {
         return object
     }
     
-    subscript(key: String) -> String? {
+    public subscript(key: String) -> String? {
         get {
             return messages[key]
         }
