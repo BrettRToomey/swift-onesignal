@@ -3,7 +3,7 @@ import JSON
 public struct Message: NodeRepresentable {
     private var messages: [String : String]
     
-    init(_ message: String) {
+    public init(_ message: String) {
         //English is required by `OneSignal`
         messages = ["en": message]
     }
@@ -28,63 +28,63 @@ public struct Message: NodeRepresentable {
 }
 
 public struct Notification {
-    var users: [String]
+    public var users: [String]
     
-    var message: Message
-    var subtitle: Message? //iOS 10+
+    public var message: Message
+    public var subtitle: Message? //iOS 10+
     
-    var isContentAvailable: Bool? //iOS
-    var isContentMutable: Bool? //iOS 10+
+    public var isContentAvailable: Bool? //iOS
+    public var isContentMutable: Bool? //iOS 10+
     
-    init(message: String) {
+    public init(message: String) {
         self.message = Message(message)
         users = []
     }
     
-    init(message: Message) {
+    public init(message: Message) {
         self.message = message
         users = []
     }
     
-    init(message: String, users: [String]) {
+    public init(message: String, users: [String]) {
         self.message = Message(message)
         self.users = users
     }
     
-    init (message: Message, users: [String]) {
+    public init (message: Message, users: [String]) {
         self.message = message
         self.users = users
     }
 }
 
 extension Notification {
-    mutating func addUser(_ id: String) {
+    public mutating func addUser(_ id: String) {
         users.append(id)
     }
     
-    mutating func addMessage(_ message: String, language: String = "en") {
+    public mutating func addMessage(_ message: String, language: String = "en") {
         self.message[language] = message
     }
 }
 
 extension Notification {
     //English only
-    mutating func setSubtitle(_ subtitle: String) {
+    public mutating func setSubtitle(_ subtitle: String) {
         let message = Message(subtitle)
         setSubtitle(message)
     }
     
-    mutating func setSubtitle(_ message: Message) {
+    public mutating func setSubtitle(_ message: Message) {
         self.subtitle = message
     }
     
     //TODO(Brett): add check to make `content` nil-able if `isContentAvailable`
     //in order to allow silent notifications on iOS
-    mutating func setContentAvailable(_ isContentAvailable: Bool) {
+    public mutating func setContentAvailable(_ isContentAvailable: Bool) {
         self.isContentAvailable = isContentAvailable
     }
     
-    mutating func setContentMutability(_ isContentMutable: Bool) {
+    public mutating func setContentMutability(_ isContentMutable: Bool) {
         self.isContentMutable = isContentMutable
     }
 }
