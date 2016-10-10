@@ -23,11 +23,25 @@ class NetworkDriver {
         guard let appId = OneSignal.app_id else { throw Error.appIDNotSet }
         let endpoint = Endpoint.sendNotification
         
-        let data = try JSON(node: [
+        var json = try JSON(node: [
             "app_id": appId,
-            "contents": JSON(["en" : notification.message.makeNode()]),
+            "contents": JSON(notification.message.makeNode()),
             "include_player_ids": JSON(notification.users.makeNode())
-        ]).makeBytes()
+        ])
+        
+        if let subtitle = notification.subtitle {
+            json["subtitle"] = JSON(try subtitle.makeNode())
+        }
+        
+        if let contentAvailable = notification.isContentAvailable {
+            json["content_available"] = JSON(contentAvailable.makeNode())
+        }
+        
+        if let mutableContent = notification.isContentMutable {
+            json["mutable_content"] = JSON(mutableContent.makeNode())
+        }
+        
+        let data = try json.makeBytes()
         
         print(try data.toString())
         
