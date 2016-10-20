@@ -31,6 +31,7 @@ public struct Notification {
     public var users: [String]
     
     public var message: Message
+    public var title: Message?
     public var subtitle: Message? //iOS 10+
     
     public var isContentAvailable: Bool? //iOS
@@ -69,6 +70,16 @@ extension Notification {
 
 extension Notification {
     //English only
+    
+    public mutating func setTitle(_ title: String) {
+        let message = Message(title)
+        setTitle(message)
+    }
+    public mutating func setTitle(_ message: Message) {
+        self.title = message
+    }
+    
+    
     public mutating func setSubtitle(_ subtitle: String) {
         let message = Message(subtitle)
         setSubtitle(message)
