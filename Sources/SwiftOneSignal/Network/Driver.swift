@@ -29,6 +29,11 @@ class NetworkDriver {
             "include_player_ids": JSON(notification.users.makeNode())
         ])
         
+        if let title = notification.title {
+            json["headings"] = JSON(try title.makeNode())
+        }
+        
+        
         if let subtitle = notification.subtitle {
             json["subtitle"] = JSON(try subtitle.makeNode())
         }
